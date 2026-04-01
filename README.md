@@ -1,4 +1,4 @@
-# 🏗️ Sistema de Gestão de Obras - Viena e Moura
+# 🏗️ Sistema de Gestão de Obras
 
 Sistema completo para gestão de obras da construção civil, desenvolvido em HTML, CSS, Bootstrap e JavaScript puro.
 
