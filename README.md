@@ -7,7 +7,7 @@ Sistema completo para gestão de obras da construção civil, desenvolvido em HT
 | Perfil | Acessos |
 |--------|---------|
 | **👷 Mestre de Obras** | Checklist, Solicitar Material, Relatórios, Alocação de Funcionários |
-| **📦 Almoxarife** | Solicitar Material, Armazém Central, Controle de Estoque |
+| **📦 Almoxarife** | Aprovar Solicitações de Material, Gestão do Armazém Central, Controle de Estoque por Unidades |
 
 ## 🔑 Credenciais de Teste
 
