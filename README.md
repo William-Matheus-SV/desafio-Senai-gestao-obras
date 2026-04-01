@@ -1,4 +1,4 @@
-# 🏗️ Sistema de Gestão de Obras - Viena e Moura
+# 🏗️ Sistema de Gestão de Obras
 
 Sistema completo para gestão de obras da construção civil, desenvolvido em HTML, CSS, Bootstrap e JavaScript puro.
 
@@ -7,7 +7,7 @@ Sistema completo para gestão de obras da construção civil, desenvolvido em HT
 | Perfil | Acessos |
 |--------|---------|
 | **👷 Mestre de Obras** | Checklist, Solicitar Material, Relatórios, Alocação de Funcionários |
-| **📦 Almoxarife** | Solicitar Material, Armazém Central, Controle de Estoque |
+| **📦 Almoxarife** | Aprovar Solicitações de Material, Gestão do Armazém Central, Controle de Estoque por Unidades |
 
 ## 🔑 Credenciais de Teste
 
@@ -46,7 +46,7 @@ O sistema é totalmente responsivo e se adapta a:
 
 ## 🌐 Acesse Online
 
-
+[https://william-matheus-sv.github.io/desafio-Senai-gestao-obras/](https://william-matheus-sv.github.io/desafio-Senai-gestao-obras/)
 
 ---
 
