@@ -94,6 +94,27 @@ function carregarDadosIniciais() {
             renderizarFuncionarios();
         });
     });
+    // Quando a tela de alocação for aberta
+function initAlocacaoPanel() {
+    carregarFiltroFuncoes();
+    carregarFrontesServico();
+    renderizarCardsEquipe();
+    renderizarTabelaEfetivo();
+    renderizarTabelaAguardando();
+
+    // Eventos
+    const btnConfirmar = document.getElementById("confirmarFrenteBtn");
+    if (btnConfirmar) btnConfirmar.addEventListener("click", confirmarDirecionamento);
+
+    const selecionarTodos = document.getElementById("selecionarTodosMestre");
+    if (selecionarTodos) selecionarTodos.addEventListener("change", selecionarTodosMestre);
+
+    const filtroFuncao = document.getElementById("filtroFuncao");
+    if (filtroFuncao) filtroFuncao.addEventListener("change", () => renderizarTabelaAguardando());
+
+    const frenteSelect = document.getElementById("frenteServicoSelect");
+    if (frenteSelect) frenteSelect.addEventListener("change", () => atualizarContadorMestre());
+}
 
     // ===== ARMAZÉM CENTRAL =====
     carregarDadosArmazemSalvos();

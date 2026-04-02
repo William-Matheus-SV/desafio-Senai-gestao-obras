@@ -363,85 +363,220 @@
                     </div>
                 </div>
 
-                <!-- ===== ALOCAÇÃO DE FUNCIONÁRIOS ===== -->
-                <div id="alocacaoPanel" class="tab-panel" style="display: none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h2 class="fw-bold"><i class="bi bi-people text-warning"></i> Alocação de Funcionários</h2>
-                            <p class="text-muted">Selecione os funcionários para alocar na obra</p>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-building"></i> Unidade: <span id="unidadeAlocacaoLabel">Residencial Jardins</span>
-                            </button>
-                            <ul class="dropdown-menu" id="unidadeSelectAlocacao">
-                                <li><a class="dropdown-item" data-unidade-id="1" href="#">Residencial Jardins</a></li>
-                                <li><a class="dropdown-item" data-unidade-id="2" href="#">Comercial Centro</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <select id="filtroAreaAlocacao" class="form-select">
-                                <option value="todas">Todas as Áreas</option>
-                                <option value="Fundação">Fundação</option>
-                                <option value="Estrutura">Estrutura</option>
-                                <option value="Alvenaria">Alvenaria</option>
-                                <option value="Reboço">Reboço</option>
-                                <option value="Elétrica">Elétrica</option>
-                                <option value="Hidráulica">Hidráulica</option>
-                                <option value="Pintura">Pintura</option>
-                                <option value="Acabamento">Acabamento</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" id="buscaFuncionario" class="form-control" placeholder="Buscar funcionário...">
-                        </div>
-                        <div class="col-md-3">
-                            <div class="alert alert-warning py-2 mb-0" id="alertaSelecao">
-                                <i class="bi bi-info-circle"></i> Permitido: <strong id="minMaxSelecao">2 a 5</strong> funcionários
+                <!-- ============================================================
+                         PAINEL: ALOCAÇÃO DE COLABORADORES
+                         ID: #alocacao | Oculto por padrão
+                         Controlado por: nav.js → Nav(elemento, 'alocacao')
+                    ============================================================ -->
+                    <div id="alocacaoPanel" class="p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h2 class="fw-bold"><i class="bi bi-hard-hat text-warning"></i> Gestão da Equipe na Obra
+                                </h2>
+                                <p class="text-muted">Controle de presença e distribuição de tarefas do seu canteiro</p>
+                            </div>
+                            <div class="bg-light border rounded p-2 px-3 shadow-sm">
+                                <i class="bi bi-geo-alt-fill text-danger"></i> <span class="text-muted">Canteiro
+                                    Atual:</span> <span class="fw-bold ms-1">Obra Alpha - Centro</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="card card-dashboard p-0 overflow-hidden">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th style="width: 50px">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="selecionarTodos">
-                                            </div>
-                                        </th>
-                                        <th>Código</th><th>Nome</th><th>Função</th><th>Área</th><th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabelaFuncionariosBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="mt-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
-                        <div>
-                            <span class="badge bg-success" id="contadorSelecionados">0</span>
-                            <span class="text-muted ms-2">funcionários selecionados</span>
-                            <div class="mt-2">
-                                <small class="text-muted">
-                                    <i class="bi bi-circle-fill text-success" style="font-size: 0.6rem;"></i> Disponível para alocação
-                                    <span class="mx-2">|</span>
-                                    <i class="bi bi-circle-fill text-secondary" style="font-size: 0.6rem;"></i> Já alocado nesta unidade
-                                </small>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary-custom" id="confirmarAlocacaoBtn">
-                            <i class="bi bi-check2-circle"></i> Confirmar Alocação (<span id="btnContadorSelecionados">0</span> Selecionados)
-                        </button>
-                    </div>
-                </div>
 
-            </div><!-- fim main-content -->
-        </div>
-    </div>
-</div>
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div
+                                    class="card card-dashboard p-3 border-0 shadow-sm border-start border-4 border-primary">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small class="text-muted">Total da Equipe</small>
+                                            <h3 class="fw-bold mb-0" id="totalEquipe">45</h3>
+                                        </div>
+                                        <i class="bi bi-people-fill fs-2 text-primary opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="card card-dashboard p-3 border-0 shadow-sm border-start border-4 border-success">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small class="text-muted">Em Atividade</small>
+                                            <h3 class="fw-bold text-success mb-0" id="funcionariosAtivos">38</h3>
+                                        </div>
+                                        <i class="bi bi-tools fs-2 text-success opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="card card-dashboard p-3 border-0 shadow-sm border-start border-4 border-warning">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small class="text-muted">Aguardando Tarefa</small>
+                                            <h3 class="fw-bold text-warning mb-0" id="funcionariosLivres">5</h3>
+                                        </div>
+                                        <i class="bi bi-hourglass-split fs-2 text-warning opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="card card-dashboard p-3 border-0 shadow-sm border-start border-4 border-danger">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small class="text-muted">Ausentes / Atestado</small>
+                                            <h3 class="fw-bold text-danger mb-0" id="funcionariosAusentes">2</h3>
+                                        </div>
+                                        <i class="bi bi-person-x fs-2 text-danger opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <h5 class="fw-bold"><i class="bi bi-list-check"></i> Efetivo Atual no Canteiro</h5>
+                            <p class="text-muted mb-2"><small>Acompanhe onde cada trabalhador está alocado hoje.</small>
+                            </p>
+
+                            <div class="card card-dashboard p-0 overflow-hidden shadow-sm">
+                                <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="table-light sticky-top">
+                                            <tr>
+                                                <th>Matrícula</th>
+                                                <th>Nome do Funcionário</th>
+                                                <th>Função</th>
+                                                <th>Frente de Serviço</th>
+                                                <th>Status de Hoje</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>MAT-1002</code></td>
+                                                <td class="fw-semibold">Carlos Eduardo</td>
+                                                <td>Pedreiro</td>
+                                                <td class="fw-bold text-dark">Alvenaria - Torre A</td>
+                                                <td><span class="badge bg-success">Trabalhando</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>MAT-1008</code></td>
+                                                <td class="fw-semibold">João Batista</td>
+                                                <td>Armador</td>
+                                                <td class="fw-bold text-dark">Fundação - Setor Sul</td>
+                                                <td><span class="badge bg-success">Trabalhando</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>MAT-1015</code></td>
+                                                <td class="fw-semibold">Sérgio Ramos</td>
+                                                <td>Servente</td>
+                                                <td class="text-muted">Pátio Central</td>
+                                                <td><span class="badge bg-warning text-dark">Aguardando Ordem</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>MAT-1022</code></td>
+                                                <td class="fw-semibold">Roberto Nunes</td>
+                                                <td>Eletricista</td>
+                                                <td class="text-muted">-</td>
+                                                <td><span class="badge bg-danger">Falta Não Justificada</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div>
+                            <h5 class="fw-bold"><i class="bi bi-diagram-3"></i> Direcionar Equipe para Frente de Serviço
+                            </h5>
+                            <p class="text-muted">Selecione os funcionários sem tarefa e atribua uma frente de serviço
+                                para eles.</p>
+
+                            <div class="row mb-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label class="form-label text-muted small mb-1">Destino (Frente de Serviço)</label>
+                                    <select id="frenteServicoSelect" class="form-select border-primary shadow-sm">
+                                        <option value="" selected disabled>Escolha a frente de serviço...</option>
+                                        <option value="alvenaria_a">Alvenaria - Torre A</option>
+                                        <option value="alvenaria_b">Alvenaria - Torre B</option>
+                                        <option value="fundacao">Fundação - Setor Norte</option>
+                                        <option value="acabamento">Acabamento e Limpeza</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label text-muted small mb-1">Filtrar por Função</label>
+                                    <select id="filtroFuncao" class="form-select">
+                                        <option value="todas">Todas as Funções</option>
+                                        <option value="pedreiro">Pedreiro</option>
+                                        <option value="servente">Servente</option>
+                                        <option value="armador">Armador</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="alert alert-info py-2 mb-0 d-flex justify-content-between align-items-center"
+                                        id="alertaSelecaoMestre">
+                                        <span><i class="bi bi-check2-square me-2"></i> Selecionados:</span>
+                                        <strong class="fs-5" id="qtdAlertaMestre">0</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="card card-dashboard p-0 overflow-hidden shadow-sm border-warning border-start border-3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width: 50px" class="text-center">
+                                                    <div class="form-check d-inline-block">
+                                                        <input class="form-check-input border-secondary" type="checkbox"
+                                                            id="selecionarTodosMestre">
+                                                    </div>
+                                                </th>
+                                                <th>Matrícula</th>
+                                                <th>Nome</th>
+                                                <th>Função</th>
+                                                <th>Última Tarefa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabelaAguardandoBody">
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check d-inline-block">
+                                                        <input class="form-check-input funcionario-checkbox"
+                                                            type="checkbox" data-id="1015">
+                                                    </div>
+                                                </td>
+                                                <td><code>MAT-1015</code></td>
+                                                <td class="fw-semibold">Sérgio Ramos</td>
+                                                <td>Servente</td>
+                                                <td class="text-muted small">Descarga de Cimento (Ontem)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check d-inline-block">
+                                                        <input class="form-check-input funcionario-checkbox"
+                                                            type="checkbox" data-id="1028">
+                                                    </div>
+                                                </td>
+                                                <td><code>MAT-1028</code></td>
+                                                <td class="fw-semibold">Marcos Felipe</td>
+                                                <td>Ajudante Geral</td>
+                                                <td class="text-muted small">Recém chegado da Base</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 d-flex justify-content-end">
+                                <button class="btn btn-primary btn-lg px-4 shadow-sm" id="confirmarFrenteBtn" disabled>
+                                    <i class="bi bi-play-circle"></i> Iniciar Trabalhos na Frente Selecionada
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
 <!-- =============================================
      MODAIS

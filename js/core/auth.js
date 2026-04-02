@@ -118,7 +118,11 @@ function mudarAba(aba) {
         renderizarRelatorios();
     } else if (aba === 'alocacao') {
         document.getElementById('alocacaoPanel').style.display = 'block';
+        if (typeof initNovaGestaoEquipe === 'function'){
+            initNovaGestaoEquipe();
+        }else {
         renderizarFuncionarios();
+        }
     } else if (aba === 'armazem') {
         document.getElementById('armazemPanel').style.display = 'block';
         renderizarArmazem();

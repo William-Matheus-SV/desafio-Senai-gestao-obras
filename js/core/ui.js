@@ -668,3 +668,170 @@ function carregarAlocacoesSalvas() {
         });
     }
 }
+// ======================= FUNÇÕES PARA GESTÃO DA EQUIPE =======================
+
+function renderizarCardsEquipe() {
+    const total = funcionariosEquipe.length;
+    const ativos = funcionariosEquipe.filter(f => f.status === "TRABALHANDO").length;
+    const aguardando = funcionariosEquipe.filter(f => f.status === "AGUARDANDO").length;
+    const ausentes = funcionariosEquipe.filter(f => f.status === "AUSENTE").length;
+
+    document.getElementById("totalEquipe").innerText = total;
+    document.getElementById("funcionariosAtivos").innerText = ativos;
+    document.getElementById("funcionariosLivres").innerText = aguardando;
+    document.getElementById("funcionariosAusentes").innerText = ausentes;
+}
+
+function renderizarTabelaEfetivo() {
+    const tbody = document.querySelector("#alocacaoPanel .table tbody");
+    if (!tbody) return;
+
+    let html = "";
+    funcionariosEquipe.forEach(func => {
+        let badgeClass = "";
+        let badgeText = "";
+
+        switch (func.status) {
+            case "TRABALHANDO":
+                badgeClass = "bg-success";
+                badgeText = "Trabalhando";
+                break;
+            case "AGUARDANDO":
+                badgeClass = "bg-warning text-dark";
+                badgeText = "Aguardando Ordem";
+                break;
+            case "AUSENTE":
+                badgeClass = "bg-danger";
+                badgeText = "Falta Não Justificada";
+                break;
+        }
+
+        html += `
+            <tr>
+                <td><code>${func.matricula}</code></td>
+                <td class="fw-semibold">${func.nome}</td>
+                <td>${func.funcao}</td>
+                <td class="${func.frenteServico ? 'fw-bold text-dark' : 'text-muted'}">${func.frenteServico || '-'}</td>
+                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+            </tr>
+        `;
+    });
+    tbody.innerHTML = html;
+}
+
+function renderizarTabelaAguardando() {
+    const filtroFuncao = document.getElementById("filtroFuncao")?.value || "todas";
+    const aguardando = funcionariosEquipe.filter(f => 
+        f.status === "AGUARDANDO" && 
+        (filtroFuncao === "todas" || f.funcao.toLowerCase() === filtroFuncao.toLowerCase())
+    );
+
+    const tbody = document.getElementById("tabelaAguardandoBody");
+    if (!tbody) return;
+
+    if (aguardando.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">Nenhum funcionário aguardando tarefa</td></tr>`;
+        return;
+    }
+
+    let html = "";
+    aguardando.forEach(func => {
+        html += `
+            <tr>
+                <td class="text-center">
+                    <div class="form-check d-inline-block">
+                        <input class="form-check-input funcionario-checkbox-mestre" type="checkbox" data-id="${func.id}">
+                    </div>
+                 </td>
+                <td><code>${func.matricula}</code></td>
+                <td class="fw-semibold">${func.nome}</td>
+                <td>${func.funcao}</td>
+                <td class="text-muted small">${func.ultimaTarefa || '-'}</td>
+            </tr>
+        `;
+    });
+    tbody.innerHTML = html;
+
+    // Atualizar contador e habilitar botão
+    atualizarContadorMestre();
+    document.querySelectorAll('.funcionario-checkbox-mestre').forEach(cb => {
+        cb.addEventListener('change', atualizarContadorMestre);
+    });
+}
+
+function atualizarContadorMestre() {
+    const checkboxes = document.querySelectorAll('.funcionario-checkbox-mestre:checked');
+    const qtd = checkboxes.length;
+    const qtdSpan = document.getElementById("qtdAlertaMestre");
+    const btnConfirmar = document.getElementById("confirmarFrenteBtn");
+
+    if (qtdSpan) qtdSpan.innerText = qtd;
+
+    if (btnConfirmar) {
+        const frenteSelecionada = document.getElementById("frenteServicoSelect")?.value;
+        btnConfirmar.disabled = (qtd === 0 || !frenteSelecionada);
+    }
+}
+
+function confirmarDirecionamento() {
+    const checkboxes = document.querySelectorAll('.funcionario-checkbox-mestre:checked');
+    const idsSelecionados = Array.from(checkboxes).map(cb => parseInt(cb.dataset.id));
+    const frenteServico = document.getElementById("frenteServicoSelect")?.value;
+    const nomeFrente = document.getElementById("frenteServicoSelect")?.options[document.getElementById("frenteServicoSelect")?.selectedIndex]?.text;
+
+    if (idsSelecionados.length === 0) {
+        alert("Selecione pelo menos um funcionário!");
+        return;
+    }
+
+    if (!frenteServico) {
+        alert("Selecione uma frente de serviço!");
+        return;
+    }
+
+    // Atualizar os funcionários
+    idsSelecionados.forEach(id => {
+        const func = funcionariosEquipe.find(f => f.id === id);
+        if (func) {
+            func.status = "TRABALHANDO";
+            func.frenteServico = nomeFrente;
+        }
+    });
+
+    // Re-renderizar tudo
+    renderizarCardsEquipe();
+    renderizarTabelaEfetivo();
+    renderizarTabelaAguardando();
+
+    // Limpar seleção
+    const selecionarTodos = document.getElementById("selecionarTodosMestre");
+    if (selecionarTodos) selecionarTodos.checked = false;
+
+    alert(`✅ ${idsSelecionados.length} funcionário(s) direcionado(s) para ${nomeFrente}!`);
+}
+
+function selecionarTodosMestre(e) {
+    const checkboxes = document.querySelectorAll('.funcionario-checkbox-mestre');
+    checkboxes.forEach(cb => cb.checked = e.target.checked);
+    atualizarContadorMestre();
+}
+
+function carregarFiltroFuncoes() {
+    const select = document.getElementById("filtroFuncao");
+    if (!select) return;
+
+    select.innerHTML = '<option value="todas">Todas as Funções</option>';
+    funcoesDisponiveis.forEach(funcao => {
+        select.innerHTML += `<option value="${funcao.toLowerCase()}">${funcao}</option>`;
+    });
+}
+
+function carregarFrontesServico() {
+    const select = document.getElementById("frenteServicoSelect");
+    if (!select) return;
+
+    select.innerHTML = '<option value="" selected disabled>Escolha a frente de serviço...</option>';
+    frontesServico.forEach(frente => {
+        select.innerHTML += `<option value="${frente.toLowerCase().replace(/ /g, '_')}">${frente}</option>`;
+    });
+}
