@@ -21,7 +21,7 @@ let armazemCentral = [
     { id_material: 2, codigo: "MAT-003", nome: "Tijolo Cerâmico",   marca: "Cerâmica São João",  saldo_atual: 8000, estoque_minimo: 2000, unidade_medida: "UN", ultima_entrada: "2025-03-25", ultima_saida: null },
     { id_material: 3, codigo: "MAT-007", nome: "Telha Cerâmica",    marca: "Cerâmica Martins",   saldo_atual: 3500, estoque_minimo: 800,  unidade_medida: "UN", ultima_entrada: "2025-03-20", ultima_saida: null },
     { id_material: 4, codigo: "MAT-011", nome: "Tinta Acrílica",    marca: "Suvinil",            saldo_atual: 450,  estoque_minimo: 100,  unidade_medida: "L",  ultima_entrada: "2025-03-15", ultima_saida: null },
-    { id_material: 5, codigo: "MAT-015", nome: "Impermeabilizante", marca: "Vedacit",            saldo_atual: 80,  estoque_minimo: 80,   unidade_medida: "L",  ultima_entrada: "2025-03-18", ultima_saida: null }
+    { id_material: 5, codigo: "MAT-015", nome: "Impermeabilizante", marca: "Vedacit",            saldo_atual: 380,  estoque_minimo: 80,   unidade_medida: "L",  ultima_entrada: "2025-03-18", ultima_saida: null }
 ];
 
 let movimentacoesArmazem = [
